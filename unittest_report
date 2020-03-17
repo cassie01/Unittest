@@ -1,0 +1,63 @@
+import unittest
+import HTMLReport
+import testwith0316
+import time
+
+class MyTestCase(unittest.TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        print("最开始执行一次")
+       
+
+    def setUp(self):
+        print("--------------开始----------")
+        self.run= testwith0316.runmain()
+
+    def test_01(self):
+        print("第一个测试用例")
+        url = "https://bbs.csdn.net/topics/390467086"
+        data = {'list':'1635782'}
+        rep = self.run.get(url,data)
+        print(rep)
+
+
+    def test_02(self):
+        print("第二个测试用例")
+
+    def tearDown(self):
+        print("-------------结束---------------")
+
+    @classmethod
+    def tearDownClass(cls):
+        print("最后执行一次")
+
+def allTest():
+    # suite1 = unittest.TestLoader().loadTestsFromTestCase(MyTestCase)
+    suite2 = unittest.TestLoader().loadTestsFromName('test_03162020.MyTestCase.test_02')
+    alltests = unittest.TestSuite([suite2])
+    return alltests
+
+if __name__ =="__main__":
+    # unittest.main()
+    # suite = unittest.TestSuite()
+    # suite.addTest(MyTestCase('test_01'))
+    # suite.addTest(MyTestCase('test_02'))
+    # runner= unittest.TextTestRunner()
+
+#报告格式
+    now = time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime())
+    runner = HTMLReport.TestRunner(report_file_name=now+'index',
+        output_path='report',
+        title='一个简单的测试报告',
+        description='无测试描述',
+        thread_count=10,
+        thread_start_wait=0,
+        tries=5,
+        delay=1,
+        back_off=2,
+        retry=False,
+        sequential_execution=True,
+        lang='cn'
+        )
+    runner.run(allTest())
