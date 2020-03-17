@@ -1,0 +1,8 @@
+import requests
+
+import json
+
+class runmain(object):
+    def get(self, url, data):
+        res = requests.get(url=url,data=data)
+        return res
